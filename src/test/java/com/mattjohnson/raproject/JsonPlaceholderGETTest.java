@@ -19,4 +19,6 @@ public class JsonPlaceholderGETTest {
 
         Assertions.assertEquals(200, response.getStatusCode());
     }
+
+    //TODO request specification + allure filter + jenkins allure plugin
 }
