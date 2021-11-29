@@ -1,3 +1,4 @@
+//https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
 pipeline {
     agent any
     stages {
@@ -11,7 +12,7 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage('Generate allure report') {
+        stage('Generate allure report') {  //https://docs.qameta.io/allure/#_jenkins
             steps {
                 script {
                     allure([
