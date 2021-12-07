@@ -36,7 +36,7 @@ public class JsonplaceholderPostsGETTest extends BaseTest {
 
         JsonPath json = response.jsonPath();
         List<String> posts = json.getList("postId");
-        System.out.println(posts.size());
+
 
 
     }
