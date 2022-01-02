@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Execute test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn test -Dtest="MoveCardBetweenListE2ETest"'
             }
         }
         stage('Generate allure report') {  //https://docs.qameta.io/allure/#_jenkins
