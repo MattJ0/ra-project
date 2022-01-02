@@ -1,6 +1,7 @@
 package com.mattjohnson.raproject.trello.boards;
 
 import com.mattjohnson.raproject.TrelloConfig;
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
@@ -36,6 +37,7 @@ public class BaseTest {
         reqBuilder.setContentType(ContentType.JSON);
         reqBuilder.addFilter(new RequestLoggingFilter());
         reqBuilder.addFilter(new ResponseLoggingFilter());
+        reqBuilder.addFilter(new AllureRestAssured());
 
         reqSpec = reqBuilder.build();
     }
