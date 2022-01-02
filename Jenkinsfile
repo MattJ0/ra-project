@@ -1,6 +1,10 @@
 //https://www.jenkins.io/doc/book/pipeline/jenkinsfile/
 pipeline {
     agent any
+    environment {
+            TRELLO_KEY = credentials('jenkins-trello-key')
+            TRELLO_TOKEN = credentials('jenkins-trello-token')
+        }
     stages {
         stage('Build test code') {
             steps {
@@ -26,4 +30,6 @@ pipeline {
             }
         }
     }
+
+
 }
