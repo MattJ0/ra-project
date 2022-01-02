@@ -5,7 +5,9 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import java.awt.*;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -13,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class BoardTest extends BaseTest {
 
     @Test
