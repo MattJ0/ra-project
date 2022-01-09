@@ -1,5 +1,7 @@
 package com.mattjohnson.raproject.trello.boards;
 
+import com.mattjohnson.raproject.dto.trello.TrelloList;
+import com.mattjohnson.raproject.rop.trello.TrelloCreateListEndpoint;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -8,6 +10,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static io.restassured.RestAssured.given;
@@ -21,6 +24,8 @@ public class MoveCardBetweenListE2ETest extends BaseTest {
     private static String firstListId;
     private static String secondListId;
     private static String cardId;
+
+    @Autowired TrelloCreateListEndpoint trelloCreateListEndpoint;
 
     @Test
     @Order(1)
@@ -46,20 +51,27 @@ public class MoveCardBetweenListE2ETest extends BaseTest {
     @Test
     @Order(2)
     public void createFirstList() {
-        Response response = given()
-                .spec(reqSpec)
-                .queryParam("name", "First List")
-                .queryParam("idBoard", boardId)
-                .when()
-                .post(BASE_URL + LISTS)
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .extract().response();
+//        Response response2 = given()
+//                .spec(reqSpec)
+//                .queryParam("name", "First List")
+//                .queryParam("idBoard", boardId)
+//                .when()
+//                .post(BASE_URL + LISTS)
+//                .then()
+//                .statusCode(HttpStatus.SC_OK)
+//                .extract().response();
 
-        JsonPath json = response.jsonPath();
-        assertThat(json.getString("name")).isEqualTo("First List");
+        TrelloList response = trelloCreateListEndpoint
+                .setNameList("First List")
+                .setIdBoard(boardId)
+                .sendRequest()
+                .assertRequestSuccess()
+                .getResponseModel();
 
-        firstListId = json.getString("id");
+//        JsonPath json = response.jsonPath();
+        assertThat(response.getName()).isEqualTo("First List");
+
+        firstListId = response.getId();
 
     }
 

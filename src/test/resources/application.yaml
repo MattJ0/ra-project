@@ -2,3 +2,7 @@
 trello:
   key: ${TRELLO_KEY}
   token: ${TRELLO_TOKEN}
+
+  path:
+    lists: /lists
+    base: https://api.trello.com/1

@@ -1,11 +1,14 @@
 package com.mattjohnson.raproject.trello.boards;
 
-import com.mattjohnson.raproject.TrelloConfig;
+import com.mattjohnson.raproject.config.TrelloConfig;
+import com.mattjohnson.raproject.configuration.RequestConfigurationBuilder;
 import io.qameta.allure.restassured.AllureRestAssured;
+import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
+import io.restassured.parsing.Parser;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
@@ -40,5 +43,15 @@ public class BaseTest {
         reqBuilder.addFilter(new AllureRestAssured());
 
         reqSpec = reqBuilder.build();
+    }
+
+    @BeforeAll
+    public void beforeAll2() {
+        RestAssured.baseURI = config.getBaseUri();
+        RestAssured.requestSpecification = RequestConfigurationBuilder.getDefaultRequestSpecification();
+        RestAssured.defaultParser = Parser.JSON;
+        RestAssured.requestSpecification.queryParam("key", config.getKey());
+        RestAssured.requestSpecification.queryParam("token", config.getToken());
+
     }
 }
