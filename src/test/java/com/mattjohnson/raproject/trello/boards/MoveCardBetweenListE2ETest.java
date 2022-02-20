@@ -10,7 +10,6 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static io.restassured.RestAssured.given;
@@ -24,8 +23,6 @@ public class MoveCardBetweenListE2ETest extends BaseTest {
     private static String firstListId;
     private static String secondListId;
     private static String cardId;
-
-    @Autowired TrelloCreateListEndpoint trelloCreateListEndpoint;
 
     @Test
     @Order(1)
@@ -61,9 +58,10 @@ public class MoveCardBetweenListE2ETest extends BaseTest {
 //                .statusCode(HttpStatus.SC_OK)
 //                .extract().response();
 
-        TrelloList response = trelloCreateListEndpoint
-                .setNameList("First List")
-                .setIdBoard(boardId)
+        TrelloList response = TrelloCreateListEndpoint.builder()
+                .nameList("First List")
+                .idBoard(boardId)
+                .build()
                 .sendRequest()
                 .assertRequestSuccess()
                 .getResponseModel();

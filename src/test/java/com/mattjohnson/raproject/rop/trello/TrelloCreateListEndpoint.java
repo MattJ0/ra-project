@@ -2,17 +2,14 @@ package com.mattjohnson.raproject.rop.trello;
 
 import com.mattjohnson.raproject.dto.trello.TrelloList;
 import com.mattjohnson.raproject.rop.BaseEndpoint;
-import lombok.Setter;
+import lombok.Builder;
 import org.apache.http.HttpStatus;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 
 import static io.restassured.RestAssured.given;
 
-@Lazy
-@Component
+@Builder
 public class TrelloCreateListEndpoint extends BaseEndpoint<TrelloCreateListEndpoint, TrelloList> {
 
     private String idBoard;
