@@ -36,13 +36,4 @@ public class TrelloCreateListEndpoint extends BaseEndpoint<TrelloCreateListEndpo
         return HttpStatus.SC_OK;
     }
 
-    public TrelloCreateListEndpoint setIdBoard(String idBoard) {
-        this.idBoard = idBoard;
-        return this;
-    }
-
-    public TrelloCreateListEndpoint setNameList(String nameList) {
-        this.nameList = nameList;
-        return this;
-    }
 }

@@ -21,4 +21,7 @@ public class TrelloConfig {
     @Value("${trello.path.lists}")
     private String listsUri;
 
+    @Value("${trello.path.boards}")
+    private String boardsUri;
+
 }

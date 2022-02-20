@@ -1,6 +1,8 @@
 package com.mattjohnson.raproject.trello.boards;
 
+import com.mattjohnson.raproject.dto.trello.Board;
 import com.mattjohnson.raproject.dto.trello.TrelloList;
+import com.mattjohnson.raproject.rop.trello.TrelloCreateBoardEndpoint;
 import com.mattjohnson.raproject.rop.trello.TrelloCreateListEndpoint;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
@@ -27,38 +29,24 @@ public class MoveCardBetweenListE2ETest extends BaseTest {
     @Test
     @Order(1)
     public void createNewBoard() {
-        Response response = given()
-                .spec(reqSpec)
-                .queryParam("name", "First Board")
-                .queryParam("defaultLists", false)
-                .when()
-                .post(BASE_URL + BOARDS)
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .extract()
-                .response();
+        Board board = TrelloCreateBoardEndpoint.builder()
+                .name("First Board")
+                .defaultLists(false)
+                .build()
+                .sendRequest()
+                .assertRequestSuccess()
+                .getResponseModel();
 
-        JsonPath json = response.jsonPath();
-        assertThat(json.getString("name")).isEqualTo("First Board");
+        assertThat(board.getName()).isEqualTo("First Board");
 
-        boardId = json.get("id");
+        boardId = board.getId();
 
     }
 
     @Test
     @Order(2)
     public void createFirstList() {
-//        Response response2 = given()
-//                .spec(reqSpec)
-//                .queryParam("name", "First List")
-//                .queryParam("idBoard", boardId)
-//                .when()
-//                .post(BASE_URL + LISTS)
-//                .then()
-//                .statusCode(HttpStatus.SC_OK)
-//                .extract().response();
-
-        TrelloList response = TrelloCreateListEndpoint.builder()
+        TrelloList trelloList = TrelloCreateListEndpoint.builder()
                 .nameList("First List")
                 .idBoard(boardId)
                 .build()
@@ -66,10 +54,9 @@ public class MoveCardBetweenListE2ETest extends BaseTest {
                 .assertRequestSuccess()
                 .getResponseModel();
 
-//        JsonPath json = response.jsonPath();
-        assertThat(response.getName()).isEqualTo("First List");
+        assertThat(trelloList.getName()).isEqualTo("First List");
 
-        firstListId = response.getId();
+        firstListId = trelloList.getId();
 
     }
 
