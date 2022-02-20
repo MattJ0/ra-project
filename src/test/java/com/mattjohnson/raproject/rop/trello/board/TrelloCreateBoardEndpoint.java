@@ -1,4 +1,4 @@
-package com.mattjohnson.raproject.rop.trello;
+package com.mattjohnson.raproject.rop.trello.board;
 
 import com.mattjohnson.raproject.dto.trello.Board;
 import com.mattjohnson.raproject.rop.BaseEndpoint;

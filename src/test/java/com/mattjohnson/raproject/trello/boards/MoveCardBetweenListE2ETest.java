@@ -2,9 +2,9 @@ package com.mattjohnson.raproject.trello.boards;
 
 import com.mattjohnson.raproject.dto.trello.Board;
 import com.mattjohnson.raproject.dto.trello.TrelloList;
-import com.mattjohnson.raproject.rop.trello.TrelloCreateBoardEndpoint;
-import com.mattjohnson.raproject.rop.trello.TrelloCreateListEndpoint;
-import io.restassured.http.ContentType;
+import com.mattjohnson.raproject.rop.trello.board.TrelloCreateBoardEndpoint;
+import com.mattjohnson.raproject.rop.trello.board.TrelloDeleteBoardEndpoint;
+import com.mattjohnson.raproject.rop.trello.list.TrelloCreateListEndpoint;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
@@ -38,9 +38,7 @@ public class MoveCardBetweenListE2ETest extends BaseTest {
                 .getResponseModel();
 
         assertThat(board.getName()).isEqualTo("First Board");
-
         boardId = board.getId();
-
     }
 
     @Test
@@ -55,30 +53,22 @@ public class MoveCardBetweenListE2ETest extends BaseTest {
                 .getResponseModel();
 
         assertThat(trelloList.getName()).isEqualTo("First List");
-
         firstListId = trelloList.getId();
-
     }
 
     @Test
     @Order(3)
     public void createSecondList() {
-        Response response = given()
-                .spec(reqSpec)
-                .queryParam("name", "Second List")
-                .queryParam("idBoard", boardId)
-                .contentType(ContentType.JSON)
-                .when()
-                .post(BASE_URL + LISTS)
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .extract().response();
+        TrelloList trelloList = TrelloCreateListEndpoint.builder()
+                .nameList("Second List")
+                .idBoard(boardId)
+                .build()
+                .sendRequest()
+                .assertRequestSuccess()
+                .getResponseModel();
 
-        JsonPath json = response.jsonPath();
-        assertThat(json.getString("name")).isEqualTo("Second List");
-
-        secondListId = json.getString("id");
-
+        assertThat(trelloList.getName()).isEqualTo("Second List");
+        secondListId = trelloList.getId();
     }
 
     @Test
@@ -122,13 +112,11 @@ public class MoveCardBetweenListE2ETest extends BaseTest {
     @Test
     @Order(6)
     public void deleteBoard() {
-        given()
-                .spec(reqSpec)
-                .pathParam("idBoard", boardId)
-                .when()
-                .delete(BASE_URL + BOARDS + "/{idBoard}")
-                .then()
-                .statusCode(HttpStatus.SC_OK);
+        TrelloDeleteBoardEndpoint.builder()
+                .boardId(boardId)
+                .build()
+                .sendRequest()
+                .assertRequestSuccess();
     }
 
 }
