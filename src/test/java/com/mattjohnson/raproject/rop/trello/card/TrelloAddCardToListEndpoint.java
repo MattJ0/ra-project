@@ -1,6 +1,6 @@
-package com.mattjohnson.raproject.rop.trello.board;
+package com.mattjohnson.raproject.rop.trello.card;
 
-import com.mattjohnson.raproject.dto.trello.TrelloBoard;
+import com.mattjohnson.raproject.dto.trello.TrelloCard;
 import com.mattjohnson.raproject.rop.BaseEndpoint;
 import lombok.Builder;
 import org.apache.http.HttpStatus;
@@ -10,23 +10,25 @@ import java.lang.reflect.Type;
 import static io.restassured.RestAssured.given;
 
 @Builder
-public class TrelloCreateBoardEndpoint extends BaseEndpoint<TrelloCreateBoardEndpoint, TrelloBoard> {
+public class TrelloAddCardToListEndpoint extends BaseEndpoint<TrelloAddCardToListEndpoint, TrelloCard> {
 
+    private String id;
     private String name;
-    private Boolean defaultLists;
+    private String idList;
 
     @Override
     protected Type getModelType() {
-        return TrelloBoard.class;
+        return TrelloCard.class;
     }
 
     @Override
-    public TrelloCreateBoardEndpoint sendRequest() {
+    public TrelloAddCardToListEndpoint sendRequest() {
         response = given()
                 .queryParam("name", name)
-                .queryParam("defaultsLists", defaultLists)
+                .queryParam("idList", idList)
                 .when()
-                .post(trelloConfig.getBoardsUri());
+                .post(trelloConfig.getCardsUri());
+
         return this;
     }
 

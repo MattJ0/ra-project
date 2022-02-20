@@ -7,3 +7,4 @@ trello:
     base: https://api.trello.com/1
     lists: /lists
     boards: /boards
+    cards: /cards

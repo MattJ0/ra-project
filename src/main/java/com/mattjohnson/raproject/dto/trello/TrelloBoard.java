@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Board {
+public class TrelloBoard {
 
     private String id;
     private String name;
